@@ -14,5 +14,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Css\" />
+    <Folder Include="Resources\Js\" />
   </ItemGroup>
 </Project>
