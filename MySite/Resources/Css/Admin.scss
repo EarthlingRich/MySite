@@ -1,1 +1,18 @@
-﻿
+﻿@tailwind preflight;
+@tailwind components;
+@tailwind utilities;
+
+$sidebar-width: 200px;
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.sidenav {
+    width: 200px;
+}
+
+.main {
+    margin-left: $sidebar-width;
+}

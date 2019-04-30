@@ -1,0 +1,14 @@
+﻿@model AddViewModel
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+@Html.TextBoxFor(_ => _.SearchQuery)
+<div id="SelectContainer" class="flex flex-wrap mt-2 -mr-1"></div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        Add.Init();
+    });
+</script>

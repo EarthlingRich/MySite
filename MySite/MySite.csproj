@@ -17,5 +17,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\Js\" />
+    <Folder Include="Services\" />
+    <Folder Include="Views\Add\" />
   </ItemGroup>
 </Project>

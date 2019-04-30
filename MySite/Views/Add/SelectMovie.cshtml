@@ -1,0 +1,18 @@
+﻿@model AddMovieViewModel
+
+@foreach (var movieResult in Model.MovieResults)
+{
+    <div class="w-1/4 mb-1">
+        <div class="relative bg-green-500 h-full shadow-md hover:shadow-lg mr-1">
+            @if (!string.IsNullOrEmpty(movieResult.Backdrop))
+            {
+                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w500/@movieResult.Backdrop" />
+            }
+            <div class="absolute left-0 top-0 mt-2 ml-2 text-white font-semibold leading-none">@movieResult.Title 
+            @if (!string.IsNullOrEmpty(movieResult.ReleaseDate) && movieResult.ReleaseDate.Length >= 4) {
+                <span>(@movieResult.ReleaseDate.Substring(0, 4))</span>
+            }
+            </div>
+        </div>
+    </div>
+}
