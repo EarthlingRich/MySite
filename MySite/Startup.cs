@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySite.Model;
 using MySite.Models;
 
 namespace MySite
@@ -25,7 +27,11 @@ namespace MySite
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.Configure<Config>(Configuration.GetSection("Config"));
+            var configSection = Configuration.GetSection("Config");
+            services.Configure<Config>(configSection);
+
+            services.AddDbContext<ApplicationContext>
+                (options => options.UseNpgsql(configSection.GetSection("DatabaseConnenction").Value));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
