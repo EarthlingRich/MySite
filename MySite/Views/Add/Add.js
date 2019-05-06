@@ -9,7 +9,7 @@ export function Init() {
 function PostAddSearchForm(searchQuery) {
     clearTimeout(addSearchFormTimer);
     addSearchFormTimer = setTimeout(function() {
-            fetch('/Add/SelectMovie', {
+        fetch('/Add/SearchMovies', {
             method: 'post',
             body: new URLSearchParams({ searchQuery: searchQuery }) 
         })
@@ -21,4 +21,18 @@ function PostAddSearchForm(searchQuery) {
             container.innerHTML = response;
         });
     }, 1000);
+}
+
+export function SelectMovie(tmdbId) {
+    fetch('/Add/SelectMovie', {
+        method: 'post',
+        body: new URLSearchParams({ tmdbId: tmdbId }) 
+    })
+    .then(function(response) {
+        return response.text()
+    })
+    .then((response) => {
+        let container = document.getElementById('Main');
+        container.innerHTML = response;
+    });
 }

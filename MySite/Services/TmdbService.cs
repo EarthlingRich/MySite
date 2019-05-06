@@ -27,8 +27,27 @@ namespace MySite.Services
                 response.EnsureSuccessStatusCode();
 
                 var stringResult = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<TmdbMovieSearchResponse>(stringResult);
+                var result = JsonConvert.DeserializeObject<TmdbMovieSearchResponse>(stringResult, new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd"
+                });
                 return result.Results;
+            }
+        }
+
+        public async Task<TmdbMovieResponse> GetMovieDetails(int tmdbId)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(BaseUrl + $"movie/{tmdbId}?api_key={_config.TmdbApiKey}");
+                response.EnsureSuccessStatusCode();
+
+                var stringResult = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<TmdbMovieResponse>(stringResult, new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd"
+                });
+                return result;
             }
         }
     }
@@ -43,8 +62,19 @@ namespace MySite.Services
         public int Id { get; set; }
         public string Title { get; set; }
         [JsonProperty("release_date")]
-        public string ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
         [JsonProperty("backdrop_path")]
         public string Backdrop { get; set; }
+    }
+
+    public class TmdbMovieResponse
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Overview { get; set; }
+        [JsonProperty("release_date")]
+        public DateTime? ReleaseDate { get; set; }
+        [JsonProperty("poster_path")]
+        public string Poster { get; set; }
     }
 }

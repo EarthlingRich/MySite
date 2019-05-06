@@ -1,0 +1,19 @@
+﻿@model AddMovieViewModel
+
+@using (Html.BeginForm("AddMovie", "Add")) {
+    @Html.HiddenFor(_ => _.Request.TmdbId)
+    <div class="flex">
+        <img style="min-width: 185px;" class="float-left mr-2" src="https://image.tmdb.org/t/p/w185/@Model.Poster" />
+        <div class="flex-grow">
+            <div class="text-2xl">
+                @Model.Title
+                @if (Model.ReleaseDate != null)
+                {
+                    <span>(@Model.ReleaseDate.Value.Year)</span>
+                }
+            </div>
+            <div>@Model.Overview</div>
+        </div>
+    </div>
+    <button type="submit">Add movie</button>
+}
