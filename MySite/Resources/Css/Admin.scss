@@ -4,6 +4,14 @@
 
 $sidebar-width: 200px;
 
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
@@ -11,6 +19,14 @@ body {
 
 .sidenav {
     width: 200px;
+
+    &__item {
+        @apply block w-full text-white no-underline py-1 px-2;
+
+        &:hover {
+            @apply bg-green-500;
+        }
+    }
 }
 
 .main {

@@ -7,7 +7,9 @@
         <link href="~/dist/admin.css" rel="stylesheet"/>
     </head>
     <body class="flex">
-        <nav class="fixed bg-gray-800 h-screen shadow-md text-white sidenav">
+        <nav class="fixed bg-gray-800 h-screen shadow-md sidenav">
+            <a href="/Home" class="sidenav__item">Home</a>
+            <a href="/Watched" class="sidenav__item">Watched</a>
         </nav>
         <div id="Main" class="flex-1 p-2 main">
             @RenderBody()
