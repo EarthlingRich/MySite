@@ -1,0 +1,16 @@
+﻿@model List<ListWatchedViewModel>
+
+@foreach(var watched in Model) {
+    <div class="w-1/5 mb-1">
+        <div class="relative bg-green-500 h-full shadow-md hover:shadow-lg mr-1">
+            @if (watched.PosterPath != null)
+            {
+                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w185/@watched.PosterPath" />
+            }
+            else {
+                <span>@watched.Title</span>
+                <span>(@watched.ReleaseYear)</span>
+            }
+        </div>
+    </div>
+}

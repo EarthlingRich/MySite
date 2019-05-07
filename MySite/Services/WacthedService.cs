@@ -22,8 +22,10 @@ namespace MySite.Services
 
             var watched = new Watched
             {
+                PosterPath = tmdbMovie.Poster,
                 Title = tmdbMovie.Title,
-                TmdbId = tmdbMovie.Id
+                TmdbId = tmdbMovie.Id,
+                ReleaseDate = tmdbMovie.ReleaseDate
             };
 
             _context.Watched.Add(watched);

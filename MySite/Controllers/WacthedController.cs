@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MySite.Model;
 using MySite.Models;
@@ -12,8 +13,8 @@ namespace MySite.Controllers
 {
     public class WatchedController : Controller
     {
-        private readonly WacthedService _watchedService;
         private readonly TmdbService _tmdbService;
+        private readonly WacthedService _watchedService;
 
         public WatchedController(ApplicationContext context, IOptions<Config> config)
         {
@@ -21,6 +22,7 @@ namespace MySite.Controllers
             _watchedService = new WacthedService(context, _tmdbService);
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -49,6 +51,29 @@ namespace MySite.Controllers
         {
             await _watchedService.Create(viewModel.Request);
             return Redirect("Index");
+        }
+    }
+
+    public class WatchedListViewComponent : ViewComponent
+    {
+        const int ListPageSize = 20;
+        private readonly ApplicationContext _context;
+
+        public WatchedListViewComponent(ApplicationContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(int page)
+        {
+            var watched = await _context.Watched.Skip(ListPageSize * (page - 1)).Take(ListPageSize).ToListAsync();
+            var viewModel = new List<ListWatchedViewModel>();
+            foreach(var watch in watched)
+            {
+                viewModel.Add(new ListWatchedViewModel(watch));
+            }
+
+            return View("~/Views/Watched/List.cshtml", viewModel);
         }
     }
 }

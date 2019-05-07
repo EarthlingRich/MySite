@@ -19,6 +19,7 @@ function PostSearch(searchQuery) {
         .then((response) => {
             let container = document.getElementById('SelectContainer');
             container.innerHTML = response;
+            container.classList.remove('hidden');
         });
     }, 1000);
 }
