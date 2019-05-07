@@ -1,6 +1,6 @@
 ﻿namespace MySite.Model
 {
-    public class Movie
+    public class Watched
     {
         public int Id { get; set; }
         public string Title { get; set; }

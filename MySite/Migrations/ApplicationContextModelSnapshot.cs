@@ -18,7 +18,7 @@ namespace MySite.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("MySite.Model.Movie", b =>
+            modelBuilder.Entity("MySite.Model.Watched", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -29,7 +29,7 @@ namespace MySite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Watched");
                 });
 #pragma warning restore 612, 618
         }

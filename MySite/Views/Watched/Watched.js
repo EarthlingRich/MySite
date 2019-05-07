@@ -1,15 +1,15 @@
-﻿let addSearchFormTimer;
+﻿let searchTimer;
 
 export function Init() {
     document.getElementById('SearchQuery').addEventListener('input', function(){
-        PostAddSearchForm(this.value);
+        PostSearch(this.value);
     });
 }
 
-function PostAddSearchForm(searchQuery) {
-    clearTimeout(addSearchFormTimer);
-    addSearchFormTimer = setTimeout(function() {
-        fetch('/Add/SearchMovies', {
+function PostSearch(searchQuery) {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function() {
+        fetch('/Watched/Search', {
             method: 'post',
             body: new URLSearchParams({ searchQuery: searchQuery }) 
         })
@@ -23,8 +23,8 @@ function PostAddSearchForm(searchQuery) {
     }, 1000);
 }
 
-export function SelectMovie(tmdbId) {
-    fetch('/Add/SelectMovie', {
+export function Select(tmdbId) {
+    fetch('/Watched/Select', {
         method: 'post',
         body: new URLSearchParams({ tmdbId: tmdbId }) 
     })

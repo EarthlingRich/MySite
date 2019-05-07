@@ -5,28 +5,28 @@ using MySite.Model.Requests;
 
 namespace MySite.Services
 {
-    public class MovieService
+    public class WacthedService
     {
         private readonly ApplicationContext _context;
         private readonly TmdbService _tmdbService;
 
-        public MovieService(ApplicationContext context, TmdbService tmdbService)
+        public WacthedService(ApplicationContext context, TmdbService tmdbService)
         {
             _context = context;
             _tmdbService = tmdbService;
         }
 
-        public async Task AddMovie(AddMovieRequest request)
+        public async Task Create(CreateWatchedRequest request)
         {
             var tmdbMovie = await _tmdbService.GetMovieDetails(request.TmdbId);
 
-            var movie = new Movie
+            var watched = new Watched
             {
                 Title = tmdbMovie.Title,
                 TmdbId = tmdbMovie.Id
             };
 
-            _context.Movies.Add(movie);
+            _context.Watched.Add(watched);
             await _context.SaveChangesAsync();
         }
     }

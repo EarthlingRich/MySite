@@ -9,8 +9,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySite.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190501140400_AddMovie")]
-    partial class AddMovie
+    [Migration("20190507145907_AddWatched")]
+    partial class AddWatched
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace MySite.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("MySite.Model.Movie", b =>
+            modelBuilder.Entity("MySite.Model.Watched", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -31,7 +31,7 @@ namespace MySite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Watched");
                 });
 #pragma warning restore 612, 618
         }

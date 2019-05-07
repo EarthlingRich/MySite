@@ -10,15 +10,15 @@ using MySite.Services;
 
 namespace MySite.Controllers
 {
-    public class AddController : Controller
+    public class WatchedController : Controller
     {
-        private readonly MovieService _movieService;
+        private readonly WacthedService _watchedService;
         private readonly TmdbService _tmdbService;
 
-        public AddController(ApplicationContext context, IOptions<Config> config)
+        public WatchedController(ApplicationContext context, IOptions<Config> config)
         {
             _tmdbService = new TmdbService(config.Value);
-            _movieService = new MovieService(context, _tmdbService);
+            _watchedService = new WacthedService(context, _tmdbService);
         }
 
         public IActionResult Index()
@@ -27,27 +27,27 @@ namespace MySite.Controllers
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> SearchMovies(string searchQuery)
+        public async Task<PartialViewResult> Search(string searchQuery)
         {
             var results = await _tmdbService.SearchAsync(searchQuery);
 
-            var viewModel = new SelectMovieViewModel(results.ToList());
-            return PartialView("SelectMovie", viewModel);
+            var viewModel = new SelectWatchedViewModel(results.ToList());
+            return PartialView("Select", viewModel);
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> SelectMovie(int tmdbId)
+        public async Task<PartialViewResult> Select(int tmdbId)
         {
             var tmdbMovie = await _tmdbService.GetMovieDetails(tmdbId);
 
-            var viewModel = new AddMovieViewModel(tmdbMovie);
-            return PartialView("AddMovie", viewModel);
+            var viewModel = new CreateWatchedViewModel(tmdbMovie);
+            return PartialView("Create", viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMovie(AddMovieViewModel viewModel)
+        public async Task<IActionResult> Create(CreateWatchedViewModel viewModel)
         {
-            await _movieService.AddMovie(viewModel.Request);
+            await _watchedService.Create(viewModel.Request);
             return Redirect("Index");
         }
     }

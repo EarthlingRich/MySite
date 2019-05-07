@@ -5,23 +5,23 @@ using MySite.Services;
 
 namespace MySite.Models
 {
-    public class SelectMovieViewModel
+    public class SelectWatchedViewModel
     {
-        public SelectMovieViewModel(List<TmdbMovieSearchResult> tmdbMovieSearchResults)
+        public SelectWatchedViewModel(List<TmdbMovieSearchResult> tmdbMovieSearchResults)
         {
-            MovieResults = tmdbMovieSearchResults;
+            SearchResults = tmdbMovieSearchResults;
         }
 
-        public List<TmdbMovieSearchResult> MovieResults { get; set; }
+        public List<TmdbMovieSearchResult> SearchResults { get; set; }
     }
 
-    public class AddMovieViewModel
+    public class CreateWatchedViewModel
     {
-        public AddMovieViewModel() { }
+        public CreateWatchedViewModel() { }
 
-        public AddMovieViewModel(TmdbMovieResponse tmdbMovieResponse)
+        public CreateWatchedViewModel(TmdbMovieResponse tmdbMovieResponse)
         {
-            Request = new AddMovieRequest
+            Request = new CreateWatchedRequest
             {
                 TmdbId = tmdbMovieResponse.Id
             };
@@ -31,7 +31,7 @@ namespace MySite.Models
             Poster = tmdbMovieResponse.Poster;
         }
 
-        public AddMovieRequest Request { get; set;  }
+        public CreateWatchedRequest Request { get; set;  }
         public string Title { get; set; }
         public string Overview { get; set; }
         public DateTime? ReleaseDate { get; set; }

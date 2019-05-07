@@ -18,7 +18,7 @@
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\Js\" />
     <Folder Include="Services\" />
-    <Folder Include="Views\Add\" />
+    <Folder Include="Views\Watched\" />
     <Folder Include="Model\" />
     <Folder Include="Migrations\" />
     <Folder Include="Model\Requests\" />

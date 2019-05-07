@@ -1,0 +1,20 @@
+﻿@model SelectWatchedViewModel
+
+@foreach (var searchResult in Model.SearchResults)
+{
+    <div class="w-1/4 mb-1">
+        <div class="relative bg-green-500 h-full shadow-md hover:shadow-lg mr-1" onclick="Watched.Select(@searchResult.Id)">
+            @if (!string.IsNullOrEmpty(searchResult.Backdrop))
+            {
+                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w500/@searchResult.Backdrop" />
+            }
+            <div class="absolute left-0 top-0 mt-2 ml-2 text-white font-semibold text-shadow leading-none">
+                @searchResult.Title
+            @if (searchResult.ReleaseDate != null)
+            {
+                <span>(@searchResult.ReleaseDate.Value.Year)</span>
+            }
+        </div>
+    </div>
+</div>
+}

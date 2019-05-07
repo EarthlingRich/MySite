@@ -7,6 +7,6 @@ namespace MySite.Model
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         { }
 
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Watched> Watched { get; set; }
     }
 }

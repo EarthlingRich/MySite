@@ -1,6 +1,6 @@
-﻿@model AddMovieViewModel
+﻿@model CreateWatchedViewModel
 
-@using (Html.BeginForm("AddMovie", "Add")) {
+@using (Html.BeginForm("Create", "Watched")) {
     @Html.HiddenFor(_ => _.Request.TmdbId)
     <div class="flex">
         <img style="min-width: 185px;" class="float-left mr-2" src="https://image.tmdb.org/t/p/w185/@Model.Poster" />
@@ -15,5 +15,5 @@
             <div>@Model.Overview</div>
         </div>
     </div>
-    <button type="submit">Add movie</button>
+    <button type="submit">Save</button>
 }

@@ -1,5 +1,5 @@
 ﻿require('typeface-open-sans');
 
-require('expose-loader?Add!../../Views/Add/Add');
+require('expose-loader?Watched!../../Views/Watched/Watched');
 
 require('../Css/Admin.scss');
