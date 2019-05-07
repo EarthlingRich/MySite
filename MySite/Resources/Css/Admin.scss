@@ -18,7 +18,7 @@ body {
 }
 
 .sidenav {
-    width: 200px;
+    width: $sidebar-width;
 
     &__item {
         @apply block w-full text-white no-underline py-1 px-2;
@@ -35,4 +35,34 @@ body {
 
 .text-shadow {
     text-shadow: 1px 1px 0 black;
+}
+
+input {
+    @apply appearance-none border border-solid border-gray-400 p-1;
+}
+
+.button {
+    @apply appearance-none px-2 py-1 border-0 text-base;
+    height: 27px;
+    line-height: 19px;
+
+    @at-root a#{&} {
+        @apply inline-block no-underline;
+    }
+
+    &__primary {
+        @apply bg-green-500 text-white;
+
+        &:hover {
+            @apply bg-green-700;
+        }
+    }
+
+    &__secondary {
+        @apply bg-gray-600 text-white;
+
+        &:hover {
+            @apply bg-gray-800;
+        }
+    }
 }
