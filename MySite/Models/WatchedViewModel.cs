@@ -11,11 +11,13 @@ namespace MySite.Models
         public ListWatchedViewModel(Watched watched) {
             PosterPath = watched.PosterPath;
             Title = watched.Title;
+            Rating = watched.Rating;
             ReleaseYear = watched.ReleaseDate.HasValue ? watched.ReleaseDate.Value.Year.ToString() : null;
         }
 
         public string PosterPath { get; set; }
         public string Title { get; set; }
+        public Rating Rating { get; set; }
         public string ReleaseYear { get; set; }
     }
 

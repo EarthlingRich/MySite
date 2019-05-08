@@ -2,15 +2,18 @@
 
 @foreach(var watched in Model) {
     <div class="w-1/5 mb-2">
-        <div class="relative bg-green-500 h-full shadow mr-2 cursor-pointer">
+        <div class="relative shadow mr-2 cursor-pointer">
             @if (watched.PosterPath != null)
             {
                 <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w342/@watched.PosterPath" />
             }
             else {
-                <span>@watched.Title</span>
-                <span>(@watched.ReleaseYear)</span>
+                <div class="bg-green-500 h-full">
+                    <span>@watched.Title</span>
+                    <span>(@watched.ReleaseYear)</span>
+                </div>
             }
+            <div class="bg-gray-700 text-white font-semibold text-center leading-none py-1" text-center">@watched.Rating</div>
         </div>
     </div>
 }

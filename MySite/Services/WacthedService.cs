@@ -25,6 +25,7 @@ namespace MySite.Services
                 PosterPath = tmdbMovie.Poster,
                 Title = tmdbMovie.Title,
                 TmdbId = tmdbMovie.Id,
+                Rating = request.Rating,
                 ReleaseDate = tmdbMovie.ReleaseDate
             };
 

@@ -66,7 +66,7 @@ namespace MySite.Controllers
 
         public async Task<IViewComponentResult> InvokeAsync(int page)
         {
-            var watched = await _context.Watched.Skip(ListPageSize * (page - 1)).Take(ListPageSize).ToListAsync();
+            var watched = await _context.Watched.OrderByDescending(_ => _.Id).Skip(ListPageSize * (page - 1)).Take(ListPageSize).ToListAsync();
             var viewModel = new List<ListWatchedViewModel>();
             foreach(var watch in watched)
             {

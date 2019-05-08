@@ -13,6 +13,7 @@
                 }
             </div>
             <div>@Model.Overview</div>
+            @Html.DropDownListFor(_ => _.Request.Rating, Html.GetEnumSelectList<Rating>())
         </div>
     </div>
     <div class="pt-2">
