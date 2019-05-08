@@ -2,12 +2,12 @@
     ViewData["Title"] = "Watched";
 }
 
-<h2>Add new</h2>
+<h2>Search new</h2>
 <input id="SearchQuery" placeholder="Search..." />
-<div id="SelectContainer" class="flex flex-wrap my-2 -mr-1 hidden"></div>
+<div id="SelectContainer" class="flex flex-wrap mt-2 -mb-2 -mr-2 hidden"></div>
 
-<h2 class="mt-2">Watched</h2>
-<div id="ListContainer" class="flex flex-wrap -mr-1">
+<h2 class="mt-2">Previously watched</h2>
+<div id="ListContainer" class="flex flex-wrap -mr-2">
     @await Component.InvokeAsync("WatchedList", new { page = 1 })
 </div>
 
