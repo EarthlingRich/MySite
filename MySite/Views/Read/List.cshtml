@@ -1,0 +1,20 @@
+﻿@model List<ListReadViewModel>
+
+@foreach (var read in Model)
+{
+    <div class="w-1/5 mb-2">
+        <div class="relative shadow mr-2 cursor-pointer">
+            @if (read.CoverPath != null)
+            {
+                <img class="w-full block object-contain" src="@read.CoverPath" />
+            }
+            else
+            {
+                <div class="bg-green-500 h-full">
+                    <span>@read.Title</span>
+                </div>
+            }
+            <div class="bg-gray-700 text-white font-semibold text-center py-1" text-center">@read.Rating</div>
+        </div>
+    </div>
+}

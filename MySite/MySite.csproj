@@ -22,5 +22,6 @@
     <Folder Include="Model\" />
     <Folder Include="Migrations\" />
     <Folder Include="Model\Requests\" />
+    <Folder Include="Views\Read\" />
   </ItemGroup>
 </Project>
