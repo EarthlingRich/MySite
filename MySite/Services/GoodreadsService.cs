@@ -29,31 +29,19 @@ namespace MySite.Services
             {
                 var response = await client.GetAsync(BaseUrl + $"search/index.xml?key={_config.GoodreadsApiKey}&q={HttpUtility.UrlEncode(query)}");
                 response.EnsureSuccessStatusCode();
-
+               
                 var stringResult = await response.Content.ReadAsStringAsync();
-
                 var xml = new XmlDocument();
                 xml.LoadXml(stringResult);
-
-                var results = new List<GoodreadsSearchResult>();
-
                 var workNodes = xml.SelectNodes("GoodreadsResponse/search/results/work");
 
-                foreach(XmlNode workNode in workNodes)
+                var results = new List<GoodreadsSearchResult>();
+                foreach (XmlNode workNode in workNodes)
                 {
                     var bookNode = workNode.SelectSingleNode("best_book");
 
                     var coverPath = bookNode.SelectSingleNode("image_url").InnerText;
-                    if (coverPath.Contains("/nophoto/"))
-                    {
-                        coverPath = "";
-                    }
-                    else
-                    {
-                        var coverPathBuilder = new StringBuilder(coverPath);
-                        coverPathBuilder[coverPath.LastIndexOf("/", StringComparison.Ordinal) - 1] = 'l';
-                        coverPath = coverPathBuilder.ToString();
-                    }
+                    coverPath = ProcessCoverPath(coverPath);
 
                     results.Add(new GoodreadsSearchResult
                     {
@@ -75,23 +63,13 @@ namespace MySite.Services
                 response.EnsureSuccessStatusCode();
 
                 var stringResult = await response.Content.ReadAsStringAsync();
-
                 var xml = new XmlDocument();
                 xml.LoadXml(stringResult);
 
                 var bookNode = xml.SelectSingleNode("GoodreadsResponse/book");
 
                 var coverPath = bookNode.SelectSingleNode("image_url").InnerText;
-                if (coverPath.Contains("/nophoto/"))
-                {
-                    coverPath = "";
-                }
-                else
-                {
-                    var coverPathBuilder = new StringBuilder(coverPath);
-                    coverPathBuilder[coverPath.LastIndexOf("/", StringComparison.Ordinal) - 1] = 'l';
-                    coverPath = coverPathBuilder.ToString();
-                }
+                coverPath = ProcessCoverPath(coverPath);
 
                 var result = new GoodreadsBookResponse
                 {
@@ -102,6 +80,22 @@ namespace MySite.Services
                 };
 
                 return result;
+            }
+        }
+
+        private string ProcessCoverPath(string coverPath)
+        {
+            if (coverPath.Contains("/nophoto/"))
+            {
+                //Remove default Goodreads image url
+                return "";
+            }
+            else
+            {
+                //Convert Goodreads cover from medium to large
+                var coverPathBuilder = new StringBuilder(coverPath);
+                coverPathBuilder[coverPath.LastIndexOf("/", StringComparison.Ordinal) - 1] = 'l';
+                return coverPathBuilder.ToString();
             }
         }
     }
