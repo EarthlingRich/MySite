@@ -3,13 +3,11 @@
 @foreach (var searchResult in Model.SearchResults)
 {
     <div class="w-1/5 mb-2">
-        <div class="relative shadow mr-2 cursor-pointer @(string.IsNullOrEmpty(searchResult.CoverPath) ? "bg-green-500 h-full" : "")" onclick="Read.Select(@searchResult.Id)">
-            @if (!string.IsNullOrEmpty(searchResult.CoverPath))
-            {
-                <img class="w-full block object-contain" src="@searchResult.CoverPath" />
-            }
-            <div class="absolute left-0 top-0 mt-2 ml-2 text-white font-semibold text-shadow leading-none">
-                @searchResult.Title
+        <div class="relative shadow mr-2 cursor-pointer" onclick="Read.Select(@searchResult.Id)">
+            <div class="block w-full bg-cover bg-center bg-green-500" style="height: 350px; background-image: url(@searchResult.CoverPath);">
+                <div class="p-2 text-white font-semibold text-shadow">
+                    @searchResult.Title
+                </div>
             </div>
         </div>
     </div>

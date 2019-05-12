@@ -4,16 +4,12 @@
 {
     <div class="w-1/5 mb-2">
         <div class="relative shadow mr-2 cursor-pointer">
-            @if (read.CoverPath != null)
-            {
-                <img class="w-full block object-contain" src="@read.CoverPath" />
-            }
-            else
-            {
-                <div class="bg-green-500 h-full">
-                    <span>@read.Title</span>
-                </div>
-            }
+            <div class="block w-full bg-cover bg-center bg-green-500" style="height: 350px; background-image: url(@read.CoverPath);">
+                @if (string.IsNullOrEmpty(read.CoverPath))
+                {
+                    <div class="text-white font-semibold p-2">@read.Title</div>
+                }
+            </div>
             <div class="bg-gray-700 text-white font-semibold text-center py-1" text-center">@read.Rating</div>
         </div>
     </div>
