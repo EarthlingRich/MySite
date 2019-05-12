@@ -406,3 +406,5 @@ ASALocalRun/
 
 # Custom
 MySite/wwwroot/dist/
+
+MySite/appsettings\.Development\.json
