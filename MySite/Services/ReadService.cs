@@ -16,8 +16,10 @@ namespace MySite.Services
             _goodreadsService = goodreadsService;
         }
 
-        public async Task Create(CreateReadRequest request)
+        public async Task CreateOrUpdate(CreateReadRequest request)
         {
+            var existingReadTask = _context.Read.FindAsync(request.Id);
+
             var goodreadsBookTask = _goodreadsService.GetBookDetails(request.GoodreadsId);
 
             Task<GoodreadsBookResponse> goodreadsEditionBookTask = null;
@@ -26,21 +28,38 @@ namespace MySite.Services
                 goodreadsEditionBookTask = _goodreadsService.GetBookDetails(request.GoodreadsEditionId.Value);
             }
 
-            await Task.WhenAll(new Task[] { goodreadsBookTask, goodreadsEditionBookTask }.Where(_ => _ != null));
+            await Task.WhenAll(new Task[] { goodreadsBookTask, goodreadsEditionBookTask, existingReadTask }.Where(_ => _ != null));
             var goodreadsBook = goodreadsBookTask.Result;
             var goodreadsEditionBook = goodreadsEditionBookTask?.Result;
+            var existingRead = existingReadTask.Result;
 
-            var read = new Read
+            if (existingRead == null)
             {
-                CoverPath = goodreadsEditionBook != null ? goodreadsEditionBook.CoverPath : goodreadsBook.CoverPath,
-                Title = goodreadsBook.Title,
-                GoodreadsId = goodreadsBook.Id,
-                GoodreadsEditionId = goodreadsEditionBook?.Id,
-                Rating = request.Rating,
-                ReleaseDate = goodreadsBook.ReleaseDate
-            };
+                var read = new Read
+                {
+                    CoverPath = goodreadsEditionBook != null ? goodreadsEditionBook.CoverPath : goodreadsBook.CoverPath,
+                    Description = goodreadsBook.Description,
+                    Title = goodreadsBook.Title,
+                    GoodreadsId = goodreadsBook.Id,
+                    GoodreadsEditionId = goodreadsEditionBook?.Id,
+                    Rating = request.Rating,
+                    ReleaseDate = goodreadsBook.ReleaseDate
+                };
 
-            _context.Read.Add(read);
+                _context.Read.Add(read);
+            }
+            else
+            {
+                existingRead.CoverPath = goodreadsEditionBook != null ? goodreadsEditionBook.CoverPath : goodreadsBook.CoverPath;
+                existingRead.Description = goodreadsBook.Description;
+                existingRead.Title = goodreadsBook.Title;
+                existingRead.GoodreadsEditionId = goodreadsEditionBook?.Id;
+                existingRead.Rating = request.Rating;
+                existingRead.ReleaseDate = goodreadsBook.ReleaseDate;
+
+                _context.Update(existingRead);
+            }
+
             await _context.SaveChangesAsync();
         }
     }

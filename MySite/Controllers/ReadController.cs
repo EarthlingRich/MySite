@@ -12,13 +12,15 @@ namespace MySite.Controllers
 {
     public class ReadController : Controller
     {
+        private readonly ApplicationContext _context;
         private readonly GoodreadsService _goodreadsService;
         private readonly ReadService _readService;
 
         public ReadController(ApplicationContext context, IOptions<Config> config)
         {
+            _context = context;
             _goodreadsService = new GoodreadsService(config.Value);
-            _readService = new ReadService(context, _goodreadsService);
+            _readService = new ReadService(_context, _goodreadsService);
         }
 
         [HttpGet]
@@ -46,9 +48,17 @@ namespace MySite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateReadViewModel viewModel)
+        public async Task<PartialViewResult> SelectForUpdate(int readId)
         {
-            await _readService.Create(viewModel.Request);
+            var read = await _context.Read.FindAsync(readId);
+            var viewModel = new CreateReadViewModel(read);
+            return PartialView("Create", viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrUpdate(CreateReadViewModel viewModel)
+        {
+            await _readService.CreateOrUpdate(viewModel.Request);
             return Redirect("Index");
         }
     }

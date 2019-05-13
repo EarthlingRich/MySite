@@ -13,13 +13,15 @@ namespace MySite.Controllers
 {
     public class WatchedController : Controller
     {
+        private readonly ApplicationContext _context;
         private readonly TmdbService _tmdbService;
         private readonly WacthedService _watchedService;
 
         public WatchedController(ApplicationContext context, IOptions<Config> config)
         {
+            _context = context;
             _tmdbService = new TmdbService(config.Value);
-            _watchedService = new WacthedService(context, _tmdbService);
+            _watchedService = new WacthedService(_context, _tmdbService);
         }
 
         [HttpGet]
@@ -47,9 +49,17 @@ namespace MySite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateWatchedViewModel viewModel)
+        public async Task<PartialViewResult> SelectForUpdate(int watchedId)
         {
-            await _watchedService.Create(viewModel.Request);
+            var watched = await _context.Watched.FindAsync(watchedId);
+            var viewModel = new CreateWatchedViewModel(watched);
+            return PartialView("Create", viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrUpdate(CreateWatchedViewModel viewModel)
+        {
+            await _watchedService.CreateOrUpdate(viewModel.Request);
             return Redirect("Index");
         }
     }

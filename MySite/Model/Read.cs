@@ -6,6 +6,7 @@ namespace MySite.Model
     {
         public int Id { get; set; }
         public string CoverPath { get; set; }
+        public string Description { get; set; }
         public int GoodreadsId { get; set; }
         public int? GoodreadsEditionId { get; set; }
         public Rating Rating { get; set; }

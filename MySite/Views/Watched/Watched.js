@@ -37,3 +37,17 @@ export function Select(tmdbId) {
         container.innerHTML = response;
     });
 }
+
+export function SelectForUpdate(watchedId) {
+    fetch('/Watched/SelectForUpdate', {
+        method: 'post',
+        body: new URLSearchParams({ watchedId: watchedId }) 
+    })
+    .then(function(response) {
+        return response.text();
+    })
+    .then((response) => {
+        let container = document.getElementById('Main');
+        container.innerHTML = response;
+    });
+}

@@ -9,12 +9,14 @@ namespace MySite.Models
     public class ListReadViewModel
     {
         public ListReadViewModel(Read read) {
+            Id = read.Id;
             CoverPath = read.CoverPath;
             Title = read.Title;
             Rating = read.Rating;
             ReleaseYear = read.ReleaseDate.HasValue ? read.ReleaseDate.Value.Year.ToString() : null;
         }
 
+        public int Id { get; set; }
         public string CoverPath { get; set; }
         public string Title { get; set; }
         public Rating Rating { get; set; }
@@ -45,6 +47,21 @@ namespace MySite.Models
             Description = goodreadsBookResponse.Description;
             ReleaseDate = goodreadsBookResponse.ReleaseDate;
             CoverPath = goodreadsBookResponse.CoverPath;
+        }
+
+        public CreateReadViewModel(Read read)
+        {
+            Request = new CreateReadRequest
+            {
+                Id = read.Id,
+                GoodreadsId = read.GoodreadsId,
+                GoodreadsEditionId = read.GoodreadsEditionId,
+                Rating = read.Rating
+            };
+            Title = read.Title;
+            Description = read.Description;
+            ReleaseDate = read.ReleaseDate;
+            CoverPath = read.CoverPath;
         }
 
         public CreateReadRequest Request { get; set;  }

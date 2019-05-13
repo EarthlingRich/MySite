@@ -3,7 +3,7 @@
 @foreach (var read in Model)
 {
     <div class="w-1/5 mb-2">
-        <div class="relative shadow mr-2 cursor-pointer">
+        <div class="relative shadow mr-2 cursor-pointer" onclick="Read.SelectForUpdate(@read.Id)">
             <div class="block w-full bg-cover bg-center bg-green-500" style="height: 350px; background-image: url(@read.CoverPath);">
                 @if (string.IsNullOrEmpty(read.CoverPath))
                 {

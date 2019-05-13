@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using MySite.Model;
 using MySite.Model.Requests;
 
@@ -15,20 +16,41 @@ namespace MySite.Services
             _tmdbService = tmdbService;
         }
 
-        public async Task Create(CreateWatchedRequest request)
+        public async Task CreateOrUpdate(CreateWatchedRequest request)
         {
-            var tmdbMovie = await _tmdbService.GetMovieDetails(request.TmdbId);
+            var existingWatchedTask = _context.Watched.FindAsync(request.Id);
+            var tmdbMovieTask = _tmdbService.GetMovieDetails(request.TmdbId);
 
-            var watched = new Watched
+            await Task.WhenAll(new Task[] { existingWatchedTask, tmdbMovieTask }.Where(_ => _ != null));
+
+            var existingWatched = existingWatchedTask.Result;
+            var tmdbMovie = tmdbMovieTask.Result;
+
+            if (existingWatched == null)
             {
-                PosterPath = tmdbMovie.Poster,
-                Title = tmdbMovie.Title,
-                TmdbId = tmdbMovie.Id,
-                Rating = request.Rating,
-                ReleaseDate = tmdbMovie.ReleaseDate
-            };
+                var watched = new Watched
+                {
+                    PosterPath = tmdbMovie.Poster,
+                    Description = tmdbMovie.Overview,
+                    Title = tmdbMovie.Title,
+                    TmdbId = tmdbMovie.Id,
+                    Rating = request.Rating,
+                    ReleaseDate = tmdbMovie.ReleaseDate
+                };
 
-            _context.Watched.Add(watched);
+                _context.Watched.Add(watched);
+            }
+            else
+            {
+                existingWatched.PosterPath = tmdbMovie.Poster;
+                existingWatched.Description = tmdbMovie.Overview;
+                existingWatched.Title = tmdbMovie.Title;
+                existingWatched.Rating = request.Rating;
+                existingWatched.ReleaseDate = tmdbMovie.ReleaseDate;
+
+                _context.Watched.Update(existingWatched);
+            }
+
             await _context.SaveChangesAsync();
         }
     }

@@ -37,3 +37,17 @@ export function Select(goodreadsId) {
         container.innerHTML = response;
     });
 }
+
+export function SelectForUpdate(readId) {
+    fetch('/Read/SelectForUpdate', {
+        method: 'post',
+        body: new URLSearchParams({ readId: readId }) 
+    })
+    .then(function(response) {
+        return response.text();
+    })
+    .then((response) => {
+        let container = document.getElementById('Main');
+        container.innerHTML = response;
+    });
+}

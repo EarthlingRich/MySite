@@ -9,12 +9,14 @@ namespace MySite.Models
     public class ListWatchedViewModel
     {
         public ListWatchedViewModel(Watched watched) {
+            Id = watched.Id;
             PosterPath = watched.PosterPath;
             Title = watched.Title;
             Rating = watched.Rating;
             ReleaseYear = watched.ReleaseDate.HasValue ? watched.ReleaseDate.Value.Year.ToString() : null;
         }
 
+        public int Id { get; set; }
         public string PosterPath { get; set; }
         public string Title { get; set; }
         public Rating Rating { get; set; }
@@ -42,15 +44,28 @@ namespace MySite.Models
                 TmdbId = tmdbMovieResponse.Id
             };
             Title = tmdbMovieResponse.Title;
-            Overview = tmdbMovieResponse.Overview;
+            Description = tmdbMovieResponse.Overview;
             ReleaseDate = tmdbMovieResponse.ReleaseDate;
-            Poster = tmdbMovieResponse.Poster;
+            PosterPath = tmdbMovieResponse.Poster;
+        }
+
+        public CreateWatchedViewModel(Watched watched)
+        {
+            Request = new CreateWatchedRequest
+            {
+                Id = watched.Id,
+                TmdbId = watched.TmdbId
+            };
+            Title = watched.Title;
+            Description = watched.Description;
+            ReleaseDate = watched.ReleaseDate;
+            PosterPath = watched.PosterPath;
         }
 
         public CreateWatchedRequest Request { get; set;  }
         public string Title { get; set; }
-        public string Overview { get; set; }
+        public string Description { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public string Poster { get; set; }
+        public string PosterPath { get; set; }
     }
 }
