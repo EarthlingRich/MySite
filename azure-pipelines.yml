@@ -30,7 +30,7 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '**/MySite.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/MySite'
     zipAfterPublish: false
     modifyOutputPath: false
     feedsToUse: 'select'
