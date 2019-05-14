@@ -25,8 +25,16 @@ steps:
     customCommand: 'run buildProd'
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build'
-- script: dotnet publish --configuration $(buildConfiguration)
-  displayName: 'dotnet publish'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/MySite.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+    zipAfterPublish: false
+    modifyOutputPath: false
+    feedsToUse: 'select'
+    versioningScheme: 'off'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
