@@ -18,11 +18,17 @@ steps:
   inputs:
     workingDir: 'MySite'
 - task: Npm@1
-  displayName: 'npm custom'
+  displayName: 'webpack build'
   inputs:
     command: custom
     workingDir: 'MySite'
     customCommand: 'run buildProd'
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-
+  displayName: 'dotnet build'
+- script: dotnet publish --configuration $(buildConfiguration)
+  displayName: 'dotnet publish'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'MySite'
+    publishLocation: 'Container'
