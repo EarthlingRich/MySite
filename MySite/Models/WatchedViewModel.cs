@@ -27,26 +27,67 @@ namespace MySite.Models
     {
         public SelectWatchedViewModel(List<TmdbMovieSearchResult> tmdbMovieSearchResults)
         {
-            SearchResults = tmdbMovieSearchResults;
+            SearchResults = new List<SearchResultWatchedViewModel>();
+            foreach (var tmdbMovieSearchResult in tmdbMovieSearchResults)
+            {
+                SearchResults.Add(new SearchResultWatchedViewModel(tmdbMovieSearchResult));
+            }
         }
 
-        public List<TmdbMovieSearchResult> SearchResults { get; set; }
+        public SelectWatchedViewModel(List<TmdbSerieSearchResult> tmdbSerieSearchResults)
+        {
+            SearchResults = new List<SearchResultWatchedViewModel>();
+            foreach (var tmdbSerieSearchResult in tmdbSerieSearchResults)
+            {
+                SearchResults.Add(new SearchResultWatchedViewModel(tmdbSerieSearchResult));
+            }
+        }
+
+        public List<SearchResultWatchedViewModel> SearchResults { get; set; }
+    }
+
+    public class SearchResultWatchedViewModel
+    {
+        public SearchResultWatchedViewModel(TmdbMovieSearchResult tmdbMovieSearchResult)
+        {
+            Id = tmdbMovieSearchResult.Id;
+            Title = tmdbMovieSearchResult.Title;
+            ReleaseDate = tmdbMovieSearchResult.ReleaseDate;
+            BackdropPath = tmdbMovieSearchResult.BackdropPath;
+            WatchedType = WatchedType.Movie;
+        }
+
+        public SearchResultWatchedViewModel(TmdbSerieSearchResult tmdbSerieSearchResult)
+        {
+            Id = tmdbSerieSearchResult.Id;
+            Title = tmdbSerieSearchResult.Title;
+            ReleaseDate = tmdbSerieSearchResult.ReleaseDate;
+            BackdropPath = tmdbSerieSearchResult.BackdropPath;
+            WatchedType = WatchedType.Serie;
+        }
+
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public DateTime? ReleaseDate { get; set; }
+        public string BackdropPath { get; set; }
+        public WatchedType WatchedType { get; set; }
     }
 
     public class CreateWatchedViewModel
     {
         public CreateWatchedViewModel() { }
 
-        public CreateWatchedViewModel(TmdbMovieResponse tmdbMovieResponse)
+        public CreateWatchedViewModel(TmdbWatchedResponse tmdbWatchedResponse, WatchedType watchedType)
         {
             Request = new CreateWatchedRequest
             {
-                TmdbId = tmdbMovieResponse.Id
+                TmdbId = tmdbWatchedResponse.Id,
+                WatchedType = watchedType
             };
-            Title = tmdbMovieResponse.Title;
-            Description = tmdbMovieResponse.Overview;
-            ReleaseDate = tmdbMovieResponse.ReleaseDate;
-            PosterPath = tmdbMovieResponse.Poster;
+            Title = tmdbWatchedResponse.Title;
+            Description = tmdbWatchedResponse.Overview;
+            ReleaseDate = tmdbWatchedResponse.ReleaseDate;
+            PosterPath = tmdbWatchedResponse.PosterPath;
         }
 
         public CreateWatchedViewModel(Watched watched)
@@ -54,7 +95,8 @@ namespace MySite.Models
             Request = new CreateWatchedRequest
             {
                 Id = watched.Id,
-                TmdbId = watched.TmdbId
+                TmdbId = watched.TmdbId,
+                WatchedType = watched.WatchedType
             };
             Title = watched.Title;
             Description = watched.Description;

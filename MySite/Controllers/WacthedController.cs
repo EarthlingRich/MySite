@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -31,20 +30,29 @@ namespace MySite.Controllers
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> Search(string searchQuery)
+        public async Task<PartialViewResult> Search(string searchQuery, WatchedType watchedType)
         {
-            var results = await _tmdbService.SearchAsync(searchQuery);
+            SelectWatchedViewModel viewModel;
+            if(watchedType == WatchedType.Movie)
+            {
+                var results = await _tmdbService.SearchMovie(searchQuery);
+                viewModel = new SelectWatchedViewModel(results.ToList());
+            }
+            else
+            {
+                var results = await _tmdbService.SearchSerie(searchQuery);
+                viewModel = new SelectWatchedViewModel(results.ToList());
+            }
 
-            var viewModel = new SelectWatchedViewModel(results.ToList());
             return PartialView("Select", viewModel);
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> Select(int tmdbId)
+        public async Task<PartialViewResult> Select(int tmdbId, WatchedType watchedType)
         {
-            var tmdbMovie = await _tmdbService.GetMovieDetails(tmdbId);
+            var tmdbWatchedResponse = await _tmdbService.GetDetails(tmdbId, watchedType);
+            var viewModel = new CreateWatchedViewModel(tmdbWatchedResponse, watchedType);
 
-            var viewModel = new CreateWatchedViewModel(tmdbMovie);
             return PartialView("Create", viewModel);
         }
 

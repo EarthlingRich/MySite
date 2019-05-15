@@ -3,18 +3,18 @@
 @foreach (var searchResult in Model.SearchResults)
 {
     <div class="w-1/4 mb-2">
-        <div class="relative bg-green-500 h-full shadow mr-2 cursor-pointer" onclick="Watched.Select(@searchResult.Id)">
-            @if (!string.IsNullOrEmpty(searchResult.Backdrop))
+        <div class="relative bg-green-500 h-full shadow mr-2 cursor-pointer" onclick="Watched.Select(@searchResult.Id, '@searchResult.WatchedType')">
+            @if (!string.IsNullOrEmpty(searchResult.BackdropPath))
             {
-                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w500/@searchResult.Backdrop" />
+                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w500/@searchResult.BackdropPath" />
             }
             <div class="absolute left-0 top-0 mt-2 ml-2 text-white font-semibold text-shadow leading-none">
-            @searchResult.Title
-            @if (searchResult.ReleaseDate != null)
-            {
-                <span>(@searchResult.ReleaseDate.Value.Year)</span>
-            }
+                @searchResult.Title
+                @if (searchResult.ReleaseDate != null)
+                {
+                    <span>(@searchResult.ReleaseDate.Value.Year)</span>
+                }
+            </div>
         </div>
     </div>
-</div>
 }

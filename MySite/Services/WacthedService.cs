@@ -19,30 +19,31 @@ namespace MySite.Services
         public async Task CreateOrUpdate(CreateWatchedRequest request)
         {
             var existingWatchedTask = _context.Watched.FindAsync(request.Id);
-            var tmdbMovieTask = _tmdbService.GetMovieDetails(request.TmdbId);
+            var tmdbTask = _tmdbService.GetDetails(request.TmdbId, request.WatchedType);
 
-            await Task.WhenAll(new Task[] { existingWatchedTask, tmdbMovieTask }.Where(_ => _ != null));
+            await Task.WhenAll(existingWatchedTask, tmdbTask);
 
             var existingWatched = existingWatchedTask.Result;
-            var tmdbMovie = tmdbMovieTask.Result;
+            var tmdbMovie = tmdbTask.Result;
 
             if (existingWatched == null)
             {
                 var watched = new Watched
                 {
-                    PosterPath = tmdbMovie.Poster,
+                    PosterPath = tmdbMovie.PosterPath,
                     Description = tmdbMovie.Overview,
                     Title = tmdbMovie.Title,
                     TmdbId = tmdbMovie.Id,
                     Rating = request.Rating,
-                    ReleaseDate = tmdbMovie.ReleaseDate
+                    ReleaseDate = tmdbMovie.ReleaseDate,
+                    WatchedType = request.WatchedType
                 };
 
                 _context.Watched.Add(watched);
             }
             else
             {
-                existingWatched.PosterPath = tmdbMovie.Poster;
+                existingWatched.PosterPath = tmdbMovie.PosterPath;
                 existingWatched.Description = tmdbMovie.Overview;
                 existingWatched.Title = tmdbMovie.Title;
                 existingWatched.Rating = request.Rating;

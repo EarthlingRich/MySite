@@ -4,6 +4,7 @@
 {
     @Html.HiddenFor(_ => _.Request.Id)
     @Html.HiddenFor(_ => _.Request.TmdbId)
+    @Html.HiddenFor(_ => _.Request.WatchedType)
     <div class="flex">
         <img style="min-width: 185px;" class="float-left mr-2" src="https://image.tmdb.org/t/p/w185/@Model.PosterPath" />
         <div class="flex-grow">

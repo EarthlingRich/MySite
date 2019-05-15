@@ -41,7 +41,7 @@ h1, h2, h3, h4, h5, h6 {
     text-shadow: 1px 1px 0 black;
 }
 
-input {
+input:not([type=checkbox]):not([type=radio]) {
     @apply appearance-none border border-solid border-gray-400 p-1;
 }
 

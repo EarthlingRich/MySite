@@ -8,4 +8,10 @@
         Great = 4,
         Awesome = 5
     }
+
+    public enum WatchedType
+    {
+        Movie = 1,
+        Serie = 2
+    }
 }
