@@ -31,7 +31,7 @@ steps:
     publishWebProjects: false
     projects: '**/MySite.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/MySite'
-    zipAfterPublish: false
+    zipAfterPublish: true
     modifyOutputPath: false
     feedsToUse: 'select'
     versioningScheme: 'off'
