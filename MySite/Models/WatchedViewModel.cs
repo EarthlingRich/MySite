@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MySite.Model;
 using MySite.Model.Requests;
 using MySite.Services;
@@ -88,26 +89,30 @@ namespace MySite.Models
             Description = tmdbWatchedResponse.Overview;
             ReleaseDate = tmdbWatchedResponse.ReleaseDate;
             PosterPath = tmdbWatchedResponse.PosterPath;
-        }
+            SeasonSelectListItems = new List<SelectListItem>();
 
-        public CreateWatchedViewModel(Watched watched)
-        {
-            Request = new CreateWatchedRequest
+            for(var i = 1; i <= tmdbWatchedResponse.SeasonCount; i++)
             {
-                Id = watched.Id,
-                TmdbId = watched.TmdbId,
-                WatchedType = watched.WatchedType
-            };
-            Title = watched.Title;
-            Description = watched.Description;
-            ReleaseDate = watched.ReleaseDate;
-            PosterPath = watched.PosterPath;
+                SeasonSelectListItems.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = $"Season {i}"
+                });
+            }
         }
 
-        public CreateWatchedRequest Request { get; set;  }
-        public string Title { get; set; }
+        public CreateWatchedViewModel(TmdbWatchedResponse tmdbWatchedResponse, Watched watched) : this(tmdbWatchedResponse, watched.WatchedType)
+        {
+            Request.Id = watched.Id;
+            Request.Rating = watched.Rating;
+            Request.SeasonNumber = watched.SeasonNumber;
+        }
+
+        public CreateWatchedRequest Request { get; set; }
         public string Description { get; set; }
-        public DateTime? ReleaseDate { get; set; }
         public string PosterPath { get; set; }
+        public DateTime? ReleaseDate { get; set; }
+        public List<SelectListItem> SeasonSelectListItems { get; set;}
+        public string Title { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace MySite.Controllers
         [HttpPost]
         public async Task<PartialViewResult> Select(int tmdbId, WatchedType watchedType)
         {
-            var tmdbWatchedResponse = await _tmdbService.GetDetails(tmdbId, watchedType);
+            var tmdbWatchedResponse = await _tmdbService.GetDetails(tmdbId, null, watchedType);
             var viewModel = new CreateWatchedViewModel(tmdbWatchedResponse, watchedType);
 
             return PartialView("Create", viewModel);
@@ -60,7 +60,9 @@ namespace MySite.Controllers
         public async Task<PartialViewResult> SelectForUpdate(int watchedId)
         {
             var watched = await _context.Watched.FindAsync(watchedId);
-            var viewModel = new CreateWatchedViewModel(watched);
+            var tmdbWatchedResponse = await _tmdbService.GetDetails(watched.TmdbId, watched.SeasonNumber, watched.WatchedType);
+
+            var viewModel = new CreateWatchedViewModel(tmdbWatchedResponse, watched);
             return PartialView("Create", viewModel);
         }
 

@@ -16,6 +16,9 @@
                 }
             </div>
             <div>@Model.Description</div>
+            @if (Model.Request.WatchedType == WatchedType.Serie) {
+                @Html.DropDownListFor(_ => _.Request.SeasonNumber, Model.SeasonSelectListItems)
+            }
             @Html.DropDownListFor(_ => _.Request.Rating, Html.GetEnumSelectList<Rating>())
         </div>
     </div>

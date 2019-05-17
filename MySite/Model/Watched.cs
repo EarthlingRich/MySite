@@ -11,6 +11,7 @@ namespace MySite.Model
         public DateTime? ReleaseDate { get; set; }
         public string Title { get; set; }
         public int TmdbId { get; set; }
+        public int? SeasonNumber { get; set; }
         public WatchedType WatchedType { get; set; }
     }
 }

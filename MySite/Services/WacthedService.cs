@@ -19,35 +19,35 @@ namespace MySite.Services
         public async Task CreateOrUpdate(CreateWatchedRequest request)
         {
             var existingWatchedTask = _context.Watched.FindAsync(request.Id);
-            var tmdbTask = _tmdbService.GetDetails(request.TmdbId, request.WatchedType);
+            var tmdbTask = _tmdbService.GetDetails(request.TmdbId, request.SeasonNumber, request.WatchedType);
 
             await Task.WhenAll(existingWatchedTask, tmdbTask);
 
             var existingWatched = existingWatchedTask.Result;
-            var tmdbMovie = tmdbTask.Result;
+            var tmdbWatchedResponse = tmdbTask.Result;
 
             if (existingWatched == null)
             {
                 var watched = new Watched
                 {
-                    PosterPath = tmdbMovie.PosterPath,
-                    Description = tmdbMovie.Overview,
-                    Title = tmdbMovie.Title,
-                    TmdbId = tmdbMovie.Id,
+                    PosterPath = tmdbWatchedResponse.PosterPath,
+                    Description = tmdbWatchedResponse.Overview,
+                    Title = tmdbWatchedResponse.Title,
+                    TmdbId = tmdbWatchedResponse.Id,
+                    SeasonNumber = request.SeasonNumber,
                     Rating = request.Rating,
-                    ReleaseDate = tmdbMovie.ReleaseDate,
+                    ReleaseDate = tmdbWatchedResponse.ReleaseDate,
                     WatchedType = request.WatchedType
                 };
-
                 _context.Watched.Add(watched);
             }
             else
             {
-                existingWatched.PosterPath = tmdbMovie.PosterPath;
-                existingWatched.Description = tmdbMovie.Overview;
-                existingWatched.Title = tmdbMovie.Title;
+                existingWatched.PosterPath = tmdbWatchedResponse.PosterPath;
+                existingWatched.Description = tmdbWatchedResponse.Overview;
+                existingWatched.Title = tmdbWatchedResponse.Title;
                 existingWatched.Rating = request.Rating;
-                existingWatched.ReleaseDate = tmdbMovie.ReleaseDate;
+                existingWatched.ReleaseDate = tmdbWatchedResponse.ReleaseDate;
 
                 _context.Watched.Update(existingWatched);
             }

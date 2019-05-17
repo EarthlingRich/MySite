@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -52,29 +53,50 @@ namespace MySite.Services
             }
         }
 
-        public async Task<TmdbWatchedResponse> GetDetails(int tmdbId, WatchedType watchedType)
+        public async Task<TmdbWatchedResponse> GetDetails(int tmdbId, int? seasonNumber, WatchedType watchedType)
         {
-            if (watchedType == WatchedType.Movie)
+            if (watchedType == WatchedType.Serie)
             {
-                var tmdbMovieResponse = await GetMovieDetails(tmdbId);
-                return new TmdbWatchedResponse
+
+                var tmdbSerieResponseTask = GetSerieDetails(tmdbId);
+                Task<TmdbSeasonResponse> tmdbSeasonResponseTask = null;
+                if (seasonNumber.HasValue)
                 {
-                    Id = tmdbMovieResponse.Id,
-                    Title = tmdbMovieResponse.Title,
-                    Overview = tmdbMovieResponse.Overview,
-                    ReleaseDate = tmdbMovieResponse.ReleaseDate,
-                    PosterPath = tmdbMovieResponse.PosterPath
+                    tmdbSeasonResponseTask = GetSeasonDetails(tmdbId, seasonNumber.Value);
+                }
+
+                await Task.WhenAll(new Task[] { tmdbSerieResponseTask, tmdbSeasonResponseTask }.Where(_ => _ != null));
+
+                var tmdbSerieResponse = tmdbSerieResponseTask.Result;
+                var tmdbWatchedResponse =  new TmdbWatchedResponse
+                {
+                    Id = tmdbSerieResponse.Id,
+                    Title = tmdbSerieResponse.Title,
+                    Overview = tmdbSerieResponse.Overview,
+                    ReleaseDate = tmdbSerieResponse.ReleaseDate,
+                    PosterPath = tmdbSerieResponse.PosterPath,
+                    SeasonCount = tmdbSerieResponse.SeasonCount
                 };
+
+                if (seasonNumber.HasValue)
+                {
+                    var tmdbSeasonResponse = tmdbSeasonResponseTask.Result;
+                    tmdbWatchedResponse.Overview = tmdbSeasonResponse.Overview;
+                    tmdbWatchedResponse.PosterPath = tmdbSeasonResponse.PosterPath;
+                    tmdbWatchedResponse.Title += $" {tmdbSerieResponse.Title}";
+                }
+
+                return tmdbWatchedResponse;
             }
 
-            var tmdbSerieResponse = await GetSerieDetails(tmdbId);
+            var tmdbMovieResponse = await GetMovieDetails(tmdbId);
             return new TmdbWatchedResponse
             {
-                Id = tmdbSerieResponse.Id,
-                Title = tmdbSerieResponse.Title,
-                Overview = tmdbSerieResponse.Overview,
-                ReleaseDate = tmdbSerieResponse.ReleaseDate,
-                PosterPath = tmdbSerieResponse.PosterPath
+                Id = tmdbMovieResponse.Id,
+                Title = tmdbMovieResponse.Title,
+                Overview = tmdbMovieResponse.Overview,
+                ReleaseDate = tmdbMovieResponse.ReleaseDate,
+                PosterPath = tmdbMovieResponse.PosterPath
             };
         }
 
@@ -103,6 +125,22 @@ namespace MySite.Services
 
                 var stringResult = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<TmdbSerieResponse>(stringResult, new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd"
+                });
+                return result;
+            }
+        }
+
+        public async Task<TmdbSeasonResponse> GetSeasonDetails(int tmdbId, int seasonNumber)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(BaseUrl + $"tv/{tmdbId}/season/{seasonNumber}?api_key={_config.TmdbApiKey}");
+                response.EnsureSuccessStatusCode();
+
+                var stringResult = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<TmdbSeasonResponse>(stringResult, new JsonSerializerSettings
                 {
                     DateFormatString = "yyyy-MM-dd"
                 });
@@ -163,6 +201,17 @@ namespace MySite.Services
         public DateTime? ReleaseDate { get; set; }
         [JsonProperty("poster_path")]
         public string PosterPath { get; set; }
+        [JsonProperty("number_of_seasons")]
+        public int SeasonCount { get; set; }
+    }
+
+    public class TmdbSeasonResponse
+    {
+        [JsonProperty("name")]
+        public string Title { get; set; }
+        public string Overview { get; set; }
+        [JsonProperty("poster_path")]
+        public string PosterPath { get; set; }
     }
 
     public class TmdbWatchedResponse
@@ -172,5 +221,6 @@ namespace MySite.Services
         public string Overview { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public string PosterPath { get; set; }
+        public int SeasonCount { get; set; }
     }
 }
