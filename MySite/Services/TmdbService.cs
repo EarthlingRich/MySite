@@ -57,7 +57,6 @@ namespace MySite.Services
         {
             if (watchedType == WatchedType.Serie)
             {
-
                 var tmdbSerieResponseTask = GetSerieDetails(tmdbId);
                 Task<TmdbSeasonResponse> tmdbSeasonResponseTask = null;
                 if (seasonNumber.HasValue)
@@ -83,7 +82,8 @@ namespace MySite.Services
                     var tmdbSeasonResponse = tmdbSeasonResponseTask.Result;
                     tmdbWatchedResponse.Overview = tmdbSeasonResponse.Overview;
                     tmdbWatchedResponse.PosterPath = tmdbSeasonResponse.PosterPath;
-                    tmdbWatchedResponse.Title += $" {tmdbSerieResponse.Title}";
+                    tmdbWatchedResponse.ReleaseDate = tmdbSeasonResponse.ReleaseDate;
+                    tmdbWatchedResponse.Title += $" {tmdbSeasonResponse.Title}";
                 }
 
                 return tmdbWatchedResponse;
@@ -212,6 +212,8 @@ namespace MySite.Services
         public string Overview { get; set; }
         [JsonProperty("poster_path")]
         public string PosterPath { get; set; }
+        [JsonProperty("air_date")]
+        public DateTime? ReleaseDate { get; set; }
     }
 
     public class TmdbWatchedResponse

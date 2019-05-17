@@ -31,11 +31,11 @@ namespace MySite.Services
                 {
                     PosterPath = tmdbWatchedResponse.PosterPath,
                     Description = tmdbWatchedResponse.Overview,
-                    Title = tmdbWatchedResponse.Title,
-                    TmdbId = tmdbWatchedResponse.Id,
-                    SeasonNumber = request.SeasonNumber,
                     Rating = request.Rating,
                     ReleaseDate = tmdbWatchedResponse.ReleaseDate,
+                    SeasonNumber = request.SeasonNumber,
+                    Title = tmdbWatchedResponse.Title,
+                    TmdbId = tmdbWatchedResponse.Id,
                     WatchedType = request.WatchedType
                 };
                 _context.Watched.Add(watched);
@@ -44,9 +44,10 @@ namespace MySite.Services
             {
                 existingWatched.PosterPath = tmdbWatchedResponse.PosterPath;
                 existingWatched.Description = tmdbWatchedResponse.Overview;
-                existingWatched.Title = tmdbWatchedResponse.Title;
                 existingWatched.Rating = request.Rating;
                 existingWatched.ReleaseDate = tmdbWatchedResponse.ReleaseDate;
+                existingWatched.SeasonNumber = request.SeasonNumber;
+                existingWatched.Title = tmdbWatchedResponse.Title;
 
                 _context.Watched.Update(existingWatched);
             }
