@@ -72,6 +72,13 @@ namespace MySite.Controllers
             await _watchedService.CreateOrUpdate(viewModel.Request);
             return Redirect("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int watchedId)
+        {
+            await _watchedService.Delete(watchedId);
+            return Ok();
+        }
     }
 
     public class WatchedListViewComponent : ViewComponent

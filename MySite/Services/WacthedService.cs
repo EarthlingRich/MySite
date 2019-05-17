@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MySite.Model;
 using MySite.Model.Requests;
 
@@ -52,6 +51,13 @@ namespace MySite.Services
                 _context.Watched.Update(existingWatched);
             }
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var watched = await _context.Watched.FindAsync(id);
+            _context.Watched.Remove(watched);
             await _context.SaveChangesAsync();
         }
     }

@@ -1,5 +1,9 @@
 ﻿@model CreateWatchedViewModel
 
+@if (Model.Request.Id.HasValue)
+{
+    <button class="button button__primary float-right" onclick="Watched.Delete(@Model.Request.Id)">Delete</button>
+}
 @using (Html.BeginForm("CreateOrUpdate", "Watched"))
 {
     @Html.HiddenFor(_ => _.Request.Id)
@@ -16,7 +20,8 @@
                 }
             </div>
             <div>@Model.Description</div>
-            @if (Model.Request.WatchedType == WatchedType.Serie) {
+            @if (Model.Request.WatchedType == WatchedType.Serie)
+            {
                 @Html.DropDownListFor(_ => _.Request.SeasonNumber, Model.SeasonSelectListItems)
             }
             @Html.DropDownListFor(_ => _.Request.Rating, Html.GetEnumSelectList<Rating>())

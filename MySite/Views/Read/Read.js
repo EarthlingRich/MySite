@@ -51,3 +51,16 @@ export function SelectForUpdate(readId) {
         container.innerHTML = response;
     });
 }
+
+export function Delete(readId) {
+    fetch('/Read/Delete', {
+        method: 'post',
+        redirect: 'follow',
+        body: new URLSearchParams({ readId: readId }) 
+    })
+    .then(response => {
+        if (response.status === 200) {
+            window.location = "/Read";
+        }
+    });
+}

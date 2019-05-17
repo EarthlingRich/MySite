@@ -1,5 +1,9 @@
 ﻿@model CreateReadViewModel
 
+@if (Model.Request.Id.HasValue)
+{
+    <button class="button button__primary float-right" onclick="Read.Delete(@Model.Request.Id)">Delete</button>
+}
 @using (Html.BeginForm("CreateOrUpdate", "Read"))
 {
     @Html.HiddenFor(_ => _.Request.Id)

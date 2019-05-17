@@ -61,6 +61,13 @@ namespace MySite.Controllers
             await _readService.CreateOrUpdate(viewModel.Request);
             return Redirect("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int readId)
+        {
+            await _readService.Delete(readId);
+            return Ok();
+        }
     }
 
     public class ReadListViewComponent : ViewComponent

@@ -58,3 +58,16 @@ export function SelectForUpdate(watchedId) {
         container.innerHTML = response;
     });
 }
+
+export function Delete(watchedId) {
+    fetch('/Watched/Delete', {
+        method: 'post',
+        redirect: 'follow',
+        body: new URLSearchParams({ watchedId: watchedId }) 
+    })
+    .then(response => {
+        if (response.status === 200) {
+            window.location = "/Watched";
+        }
+    });
+}

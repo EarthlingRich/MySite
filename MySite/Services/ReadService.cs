@@ -62,5 +62,12 @@ namespace MySite.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task Delete(int id)
+        {
+            var read = await _context.Read.FindAsync(id);
+            _context.Read.Remove(read);
+            await _context.SaveChangesAsync();
+        }
     }
 }
