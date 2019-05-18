@@ -13,8 +13,8 @@ namespace MySite.Services
 {
     public class TmdbService
     {
-        Config _config;
-        const string BaseUrl = "https://api.themoviedb.org/3/";
+        private readonly Config _config;
+        private const string BaseUrl = "https://api.themoviedb.org/3/";
 
         public TmdbService(Config config)
         {

@@ -5,7 +5,7 @@
         <div class="relative shadow mr-2 cursor-pointer" onclick="Watched.SelectForUpdate(@watched.Id)">
             @if (watched.PosterPath != null)
             {
-                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w342/@watched.PosterPath" />
+                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w342/@watched.PosterPath" alt="@watched.Title poster"/>
             }
             else {
                 <div class="bg-green-500 h-full">

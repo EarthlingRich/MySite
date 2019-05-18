@@ -15,8 +15,8 @@ namespace MySite.Services
 {
     public class GoodreadsService
     {
-        Config _config;
-        const string BaseUrl = "https://www.goodreads.com/";
+        private Config _config;
+        private const string BaseUrl = "https://www.goodreads.com/";
 
         public GoodreadsService(Config config)
         {
