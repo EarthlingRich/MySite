@@ -19,7 +19,6 @@ namespace MySite.Services
         public async Task CreateOrUpdate(CreateReadRequest request)
         {
             var existingReadTask = _context.Read.FindAsync(request.Id);
-
             var goodreadsBookTask = _goodreadsService.GetBookDetails(request.GoodreadsId);
 
             Task<GoodreadsBookResponse> goodreadsEditionBookTask = null;

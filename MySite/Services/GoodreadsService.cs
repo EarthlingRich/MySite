@@ -15,7 +15,7 @@ namespace MySite.Services
 {
     public class GoodreadsService
     {
-        private Config _config;
+        private readonly Config _config;
         private const string BaseUrl = "https://www.goodreads.com/";
 
         public GoodreadsService(Config config)
@@ -90,13 +90,11 @@ namespace MySite.Services
                 //Remove default Goodreads image url
                 return "";
             }
-            else
-            {
-                //Convert Goodreads cover from medium to large
-                var coverPathBuilder = new StringBuilder(coverPath);
-                coverPathBuilder[coverPath.LastIndexOf("/", StringComparison.Ordinal) - 1] = 'l';
-                return coverPathBuilder.ToString();
-            }
+
+            //Convert Goodreads cover from medium to large
+            var coverPathBuilder = new StringBuilder(coverPath);
+            coverPathBuilder[coverPath.LastIndexOf("/", StringComparison.Ordinal) - 1] = 'l';
+            return coverPathBuilder.ToString();
         }
     }
 

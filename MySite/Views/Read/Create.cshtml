@@ -8,23 +8,24 @@
 {
     @Html.HiddenFor(_ => _.Request.Id)
     @Html.HiddenFor(_ => _.Request.GoodreadsId)
-    <div class="flex">
-        <img style="max-height: 300px; min-width: 185px" class="float-left object-contain mr-2" src="@Model.CoverPath" alt="@Model.Title cover" />
-        <div class="flex-grow">
-            <div class="text-2xl">
-                @Model.Title
-                @if (Model.ReleaseDate != null)
-                {
-                    <span>(@Model.ReleaseDate.Value.Year)</span>
-                }
-            </div>
-            <div>@Model.Description</div>
-            <div>@Html.TextBoxFor(_ => _.Request.GoodreadsEditionId)</div>
-            @Html.DropDownListFor(_ => _.Request.Rating, Html.GetEnumSelectList<Rating>())
+    @if (!string.IsNullOrEmpty(Model.CoverPath))
+    {
+        <img style="max-height: 303px;" class="float-left mr-2" src="@Model.CoverPath" alt="@Model.Title cover" />
+    }
+    <div>
+        <div class="text-2xl">
+            @Model.Title
+            @if (Model.ReleaseDate != null)
+            {
+                <span>(@Model.ReleaseDate.Value.Year)</span>
+            }
         </div>
+        <div>@Model.Description</div>
+        <div>@Html.TextBoxFor(_ => _.Request.GoodreadsEditionId)</div>
+        @Html.DropDownListFor(_ => _.Request.Rating, Html.GetEnumSelectList<Rating>())
     </div>
     <div class="pt-2">
-        <a href="/Watched" class="button button__secondary" type="button">Cancel</a>
+        <a href="/Read" class="button button__secondary" type="button">Cancel</a>
         <button class="button button__primary" type="submit">Save</button>
     </div>
 }

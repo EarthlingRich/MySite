@@ -44,7 +44,7 @@ namespace MySite.Models
             };
             Title = igdbGameResponse.Title;
             Description = igdbGameResponse.Description;
-            PosterPath = igdbGameResponse.Cover.Url;
+            CoverPath = igdbGameResponse.Cover?.Url;
         }
 
         public CreatePlayedViewModel(Played played, IgdbGameResponse igdbGameResponse) : this(igdbGameResponse)
@@ -59,7 +59,7 @@ namespace MySite.Models
 
         public CreatePlayedRequest Request { get; set; }
         public string Description { get; set; }
-        public string PosterPath { get; set; }
+        public string CoverPath { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public string Title { get; set; }
     }

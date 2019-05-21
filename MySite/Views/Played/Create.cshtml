@@ -8,7 +8,10 @@
 {
     @Html.HiddenFor(_ => _.Request.Id)
     @Html.HiddenFor(_ => _.Request.IgdbId)
-    <img style="max-height: 303px;" class="float-left mr-2" src="https:@Model.PosterPath" alt="@Model.Title poster" />
+    @if (!string.IsNullOrEmpty(Model.CoverPath))
+    {
+        <img style="max-height: 303px;" class="float-left mr-2" src="https:@Model.CoverPath" alt="@Model.Title poster" />
+    }
     <div>
         <div class="text-2xl">
             @Model.Title

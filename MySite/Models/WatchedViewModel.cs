@@ -54,7 +54,7 @@ namespace MySite.Models
             Id = tmdbMovieSearchResult.Id;
             Title = tmdbMovieSearchResult.Title;
             ReleaseDate = tmdbMovieSearchResult.ReleaseDate;
-            BackdropPath = tmdbMovieSearchResult.BackdropPath;
+            PosterPath = tmdbMovieSearchResult.PosterPath;
             WatchedType = WatchedType.Movie;
         }
 
@@ -63,14 +63,14 @@ namespace MySite.Models
             Id = tmdbSerieSearchResult.Id;
             Title = tmdbSerieSearchResult.Title;
             ReleaseDate = tmdbSerieSearchResult.ReleaseDate;
-            BackdropPath = tmdbSerieSearchResult.BackdropPath;
+            PosterPath = tmdbSerieSearchResult.PosterPath;
             WatchedType = WatchedType.Serie;
         }
 
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public string BackdropPath { get; set; }
+        public string PosterPath { get; set; }
         public WatchedType WatchedType { get; set; }
     }
 

@@ -1,16 +1,19 @@
 ﻿@model List<ListWatchedViewModel>
 
 @foreach(var watched in Model) {
-    <div class="w-1/5 mb-2">
-        <div class="relative shadow mr-2 cursor-pointer" onclick="Watched.SelectForUpdate(@watched.Id)">
-            @if (watched.PosterPath != null)
+    <div class="flex w-1/5 mb-2">
+        <div class="flex flex-col flex-grow bg-green-500 shadow mr-2 cursor-pointer" onclick="Watched.SelectForUpdate(@watched.Id)">
+            @if (!string.IsNullOrEmpty(watched.PosterPath))
             {
-                <img class="w-full block object-contain" src="https://image.tmdb.org/t/p/w342/@watched.PosterPath" alt="@watched.Title poster"/>
+                <img class="w-full h-full block object-cover object-center" style="max-height: 400px;" src="https://image.tmdb.org/t/p/w342/@watched.PosterPath" alt="@watched.Title poster"/>
             }
             else {
-                <div class="bg-green-500 h-full">
+                <div class="flex-grow p-2 text-white text-shadow">
                     <span>@watched.Title</span>
-                    <span>(@watched.ReleaseYear)</span>
+                    @if (watched.ReleaseYear != null)
+                    {
+                        <span>(@watched.ReleaseYear)</span>
+                    }
                 </div>
             }
             <div class="bg-gray-700 text-white font-semibold text-center py-1" text-center">@watched.Rating</div>

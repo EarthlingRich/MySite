@@ -2,14 +2,21 @@
 
 @foreach (var read in Model)
 {
-    <div class="w-1/5 mb-2">
-        <div class="relative shadow mr-2 cursor-pointer" onclick="Read.SelectForUpdate(@read.Id)">
-            <div class="block w-full bg-cover bg-center bg-green-500" style="height: 350px; background-image: url(@read.CoverPath);">
-                @if (string.IsNullOrEmpty(read.CoverPath))
-                {
-                    <div class="text-white font-semibold p-2">@read.Title</div>
-                }
-            </div>
+    <div class="flex w-1/5 mb-2">
+        <div class="flex flex-col flex-grow bg-green-500 shadow mr-2 cursor-pointer" onclick="Read.SelectForUpdate(@read.Id)">
+            @if (!string.IsNullOrEmpty(read.CoverPath))
+            {
+                <img class="w-full h-full block object-cover object-center" style="max-height: 400px;" src="@read.CoverPath" alt="@read.Title cover"/>
+            }
+            else {
+                <div class="flex-grow p-2 text-white text-shadow">
+                    <span>@read.Title</span>
+                    @if (read.ReleaseYear != null)
+                    {
+                        <span>(@read.ReleaseYear)</span>
+                    }
+                </div>
+            }
             <div class="bg-gray-700 text-white font-semibold text-center py-1" text-center">@read.Rating</div>
         </div>
     </div>
