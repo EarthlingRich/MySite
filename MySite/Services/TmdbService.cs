@@ -160,8 +160,8 @@ namespace MySite.Services
         public string Title { get; set; }
         [JsonProperty("release_date")]
         public DateTime? ReleaseDate { get; set; }
-        [JsonProperty("backdrop_path")]
-        public string BackdropPath { get; set; }
+        [JsonProperty("poster_path")]
+        public string PosterPath { get; set; }
     }
 
     public class TmdbMovieResponse
@@ -187,8 +187,8 @@ namespace MySite.Services
         public string Title { get; set; }
         [JsonProperty("first_air_date")]
         public DateTime? ReleaseDate { get; set; }
-        [JsonProperty("backdrop_path")]
-        public string BackdropPath { get; set; }
+        [JsonProperty("poster_path")]
+        public string PosterPath { get; set; }
     }
 
     public class TmdbSerieResponse

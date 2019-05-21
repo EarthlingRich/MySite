@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Played";
+}
+
+<h2>Search new</h2>
+<input id="SearchQuery" placeholder="Search..." />
+<div id="SelectContainer" class="flex flex-wrap mt-2 -mb-2 -mr-2 hidden"></div>
+
+<h2 class="mt-2">Previously watched</h2>
+<div id="ListContainer" class="flex flex-wrap -mr-2">
+    @await Component.InvokeAsync("PlayedList", new { page = 1 })
+</div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        Played.Init();
+    });
+</script>

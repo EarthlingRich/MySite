@@ -1,0 +1,16 @@
+﻿@model SelectPlayedViewModel
+
+@foreach (var searchResult in Model.SearchResults)
+{
+    <div class="w-1/5 mb-2">
+        <div class="relative h-full bg-green-500 shadow mr-2 cursor-pointer" onclick="Played.Select(@searchResult.Id)">
+            @if (searchResult.Cover != null && !string.IsNullOrEmpty(searchResult.Cover.Url))
+            {
+                <img class="w-full h-full block object-cover object-center" style="max-height: 400px;" src="https:@searchResult.Cover.Url" alt="@searchResult.Title poster"/>
+            }
+            <div class="absolute left-0 top-0 mt-2 ml-2 text-white font-semibold text-shadow leading-none">
+                @searchResult.Title
+            </div>
+        </div>
+    </div>
+}
